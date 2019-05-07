@@ -29,4 +29,3 @@ inotifywait -m -q -e create -e moved_to $watched_dir |
     notify-send -t 5000 "$title" "$body"
     rm $file_path
   done
-
