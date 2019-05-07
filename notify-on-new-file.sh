@@ -17,11 +17,15 @@
 
 watched_dir=$1
 
-# inotifywait is part of inotify-tools package on Debian,
-# to install it use:
-#   sudo apt install inotify-tools
+inotifywait=$(which inotifywait)
 
-inotifywait -m -q -e create -e moved_to $watched_dir |
+if [ -z "$inotifywait" ]; then
+  echo "inotifywait is not installed. To install it use:"
+  echo "  sudo apt install inotify-tools"
+  exit 1
+fi
+
+$inotifywait -m -q -e create -e moved_to $watched_dir |
   while read path action file; do
     file_path="$watched_dir/$file"
     title=$(head -n 1 $file_path)
